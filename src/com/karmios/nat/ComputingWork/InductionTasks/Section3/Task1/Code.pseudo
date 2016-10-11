@@ -1,0 +1,34 @@
+score  0
+word_list1  [hot, summer, hard, dry, heavy, light, weak, male, sad, win, small, ignore, buy,
+               succeed, reject, prevent, exclude]
+word_list2  [cold, winter, soft, wet, light, darkness, strong, female, happy, lose, big, pay attention, sell,
+               fail, accept, allow, include]
+
+PROCEDURE make_question(number1, number2)
+    OUTPUT word_list1[number1], “is to”, word_list2[number1], “as”,
+        word_list1[number2] , “is to __________________ ?”
+END PROCEDURE
+
+INPUT name
+FOR index FROM 1 TO 10
+    pick1  random(0, LEN(word_list1) – 1) #LEN returns the length of the list
+    pick2  random(0, LEN(word_list2) – 1) #LEN returns the length of the list
+    {random(a,b) generates a random number between a and b inclusive}
+
+    WHILE pick2 = pick1
+        pick2  random(0, LEN(word_list2) – 1)
+    END WHILE
+
+    {Now make a question}
+    make_question(pick1, pick2)
+    correct_answer  word_list2[pick2]
+    INPUT user_answer
+    IF user_answer = correct_answer THEN
+        score  score + 1
+        OUTPUT “Correct answer”
+    ELSE
+        OUTPUT “Wrong answer”
+    END IF
+    NEXT index
+END FOR
+OUTPUT name, “you got”, score, “out of 10”

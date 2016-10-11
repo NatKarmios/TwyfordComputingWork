@@ -1,0 +1,39 @@
+score  0
+word_list1  [hot, summer, hard, dry, heavy, light, weak, male, sad, win, small, ignore, buy,
+               succeed, reject, prevent, exclude]
+word_list2  [cold, winter, soft, wet, light, darkness, strong, female, happy, lose, big, pay attention, sell,
+               fail, accept, allow, include]
+
+PROCEDURE make_question(number1, number2)
+    OUTPUT word_list1[number1], “is to”, word_list2[number1], “as”,
+        word_list1[number2] , “is to __________________ ?”
+END PROCEDURE
+
+INPUT name
+picked  INT[20]
+
+FOR each question in test LOOP
+    REPEAT
+        pick1  random question number
+        picked[index]  pick1
+    UNTIL picked does not contain pick1
+
+    REPEAT
+        pick2  random question number
+        picked[index+10]  pick2
+    UNTIL picked does not contain pick2
+
+    make_question(pick1, pick2)
+    correct_answer  word_list2[pick2]
+    INPUT user_answer
+    IF user_answer = correct_answer THEN
+        INCREMENT score
+        OUTPUT “Correct answer”
+    ELSE
+        OUTPUT “Wrong answer”
+    ENDIF
+ENDFOR
+
+OUTPUT name, “you got”, score, “out of 10.”
+
+write name + ", " + score + "\n" to "output.txt"
