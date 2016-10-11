@@ -5,7 +5,7 @@ import java.util.Scanner;
 /**
  * This question was even worse - the pseudocode got corrupted, so all the newlines were removed and all the assignment
  * operators were replaced with quotation marks.
- *
+ * <p>
  * Step it up, Computing Department.
  */
 

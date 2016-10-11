@@ -5,7 +5,7 @@ import java.util.Scanner;
 /**
  * Note to self:
  * This is a stupid question; I had to follow an unclear and inefficient flowchart; this is not my logic.
- *
+ * <p>
  * Side note:
  * Yes I know, that's a bit of sassy error-handling and commenting. So I had a tiny bit of fun. Sue me.
  */
