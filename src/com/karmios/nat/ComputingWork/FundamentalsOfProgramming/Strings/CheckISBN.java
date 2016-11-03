@@ -52,11 +52,6 @@ public class CheckISBN {
         return total.get();
     }
 
-
-    private static void checkValidInput(String isbn) throws NumberFormatException {
-        checkValidInput(isbn, true);
-    }
-
     private static void checkValidInput(String isbn, boolean complete) throws NumberFormatException {
         if (isbn.chars().anyMatch(n -> n<48 || n >=58))
             throw new NumberFormatException("ISBN must only contain digits.");
