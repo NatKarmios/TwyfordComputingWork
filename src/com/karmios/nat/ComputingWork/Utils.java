@@ -1,6 +1,8 @@
-package com.karmios.nat.ComputingWork;
+package com.karmios.nat.computingwork;
 
 import java.nio.file.FileSystems;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.InputMismatchException;
@@ -14,7 +16,18 @@ public class Utils {
     private static final Scanner sc = new Scanner(System.in);
 
     public static final IntPredicate INT_TRUE = x -> true;
+
     public static final Predicate<String> STRING_TRUE = x -> true;
+
+    public static final Predicate<String> IS_DATE = x -> {
+        try {
+            LocalDate.parse(x);
+            return true;
+        }
+        catch (DateTimeParseException e) {
+            return false;
+        }
+    };
 
     public static String getDir(Class cls) {
         String sep = FileSystems.getDefault().getSeparator();
@@ -130,18 +143,31 @@ public class Utils {
 
     // <editor-fold desc="Lambda Factories">
 
-    public static <T> Predicate<T> conditions (Stream<Predicate<T>> stream) {
+    public static <T> Predicate<T> matchesAll (Stream<Predicate<T>> stream) {
         return x -> stream.allMatch(condition -> condition.test(x));
     }
 
-    public static <T> Predicate<T> conditions (Predicate<T>[] arr) {
-        return conditions(Arrays.stream(arr));
+    public static <T> Predicate<T> matchesAll (Predicate<T>[] arr) {
+        return matchesAll(Arrays.stream(arr));
     }
 
-    public static <T> Predicate<T> conditions (Collection<Predicate<T>> collection) {
-        return conditions(collection.stream());
+    public static <T> Predicate<T> matchesAll (Collection<Predicate<T>> collection) {
+        return matchesAll(collection.stream());
     }
 
+
+    public static <T> Predicate<T> matchesAny (Stream<Predicate<T>> stream) {
+        return x -> stream.anyMatch(condition -> condition.test(x));
+    }
+
+    public static <T> Predicate<T> matchesAny (Predicate<T>[] arr) {
+        return matchesAny(Arrays.stream(arr));
+    }
+
+    public static <T> Predicate<T> matchesAny (Collection<Predicate<T>> collection) {
+        return matchesAny(collection.stream());
+    }
+    
 
     public static IntPredicate inBounds (int lowerBound, int upperBound) {
         return x -> x >= lowerBound && x < upperBound;

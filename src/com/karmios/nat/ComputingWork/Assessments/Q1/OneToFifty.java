@@ -1,4 +1,4 @@
-package com.karmios.nat.ComputingWork.Assessments.Q1;
+package com.karmios.nat.computingwork.assessments.q1;
 
 public class OneToFifty {
     public static void main(String[] args) {
