@@ -1,4 +1,4 @@
-package com.karmios.nat.computingwork.paper1.arrays;
+package com.karmios.nat.computingwork.paper1.fundamentals_of_data_structures.arrays;
 
 import java.util.*;
 import java.util.stream.Collectors;
