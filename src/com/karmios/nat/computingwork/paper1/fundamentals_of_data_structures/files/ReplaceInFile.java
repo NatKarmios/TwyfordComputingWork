@@ -1,7 +1,6 @@
 package com.karmios.nat.computingwork.paper1.fundamentals_of_data_structures.files;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
