@@ -16,7 +16,7 @@ import static com.codepoetics.protonpack.StreamUtils.zipWithIndex;
 
 
 import static com.karmios.nat.computingwork.paper1.fundamentals_of_programming.programming_problems.PlayYourCardsRight.*;
-import static com.karmios.nat.computingwork.Utils.*;
+import static com.karmios.nat.computingwork.utils.Utils.*;
 
 
 public class PlayYourCardsRightLeaderboard {

@@ -5,7 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 
-import static com.karmios.nat.computingwork.Utils.*;
+import static com.karmios.nat.computingwork.utils.Utils.*;
 
 public class ReplaceInFile {
     public static void main(String[] args) {

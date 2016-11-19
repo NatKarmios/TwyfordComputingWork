@@ -6,8 +6,9 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 
-import static com.karmios.nat.computingwork.Utils.*;
+import static com.karmios.nat.computingwork.utils.Utils.*;
 
+@SuppressWarnings("WeakerAccess")
 public class Student {
     public String name;
     public LocalDate dateOfBirth;

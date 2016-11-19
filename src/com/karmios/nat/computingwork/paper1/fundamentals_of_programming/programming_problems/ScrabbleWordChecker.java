@@ -11,13 +11,13 @@ import java.util.stream.IntStream;
 import static com.codepoetics.protonpack.StreamUtils.zip;
 
 
-import static com.karmios.nat.computingwork.Utils.*;
+import static com.karmios.nat.computingwork.utils.Utils.*;
 
 public class ScrabbleWordChecker {
 
-    static final File WORDS_LIST = new File(getDir(ScrabbleWordChecker.class) + "scrabblewords.txt");
+    private static final File WORDS_LIST = new File(getDir(ScrabbleWordChecker.class) + "scrabblewords.txt");
 
-    static final HashMap<Character, Integer> scores = new HashMap<>();
+    private static final HashMap<Character, Integer> scores = new HashMap<>();
     static {
         int[] scoreVals = new int[]{1, 3, 3, 2, 1, 4, 2, 4, 1, 8, 5, 1, 3, 1, 1, 3, 10, 1, 1, 1, 1, 4, 4, 8, 4, 10};
         IntStream.range(0, 26).forEach(x -> scores.put((char)(x+65), scoreVals[x]));
@@ -38,7 +38,7 @@ public class ScrabbleWordChecker {
         System.out.println("The word '" + word + "' scores " + getWordScore(word) + " points.");
     }
 
-    public static int getWordScore(String word) {
+    private static int getWordScore(String word) {
         final AtomicInteger count = new AtomicInteger();
         word.chars().forEach(x -> count.addAndGet(scores.get((char) x)));
         return count.get();

@@ -3,7 +3,7 @@ package com.karmios.nat.computingwork.paper1.fundamentals_of_programming.program
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.IntStream;
 
-import static com.karmios.nat.computingwork.Utils.*;
+import static com.karmios.nat.computingwork.utils.Utils.*;
 
 public class WindowCleaner {
     public static void main(String[] args) {
@@ -13,7 +13,7 @@ public class WindowCleaner {
         cleanWindows(width, height, delay);
     }
 
-    public static void cleanWindows(int width, int height, long delay) {
+    private static void cleanWindows(int width, int height, long delay) {
         new Thread(() -> {  // Multithread to allow program to do other things
             final AtomicBoolean isReversed = new AtomicBoolean(false);
             IntStream.range(0, height).forEach(y -> {  // For each floor...

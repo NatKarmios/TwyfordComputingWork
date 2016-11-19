@@ -2,7 +2,7 @@ package com.karmios.nat.computingwork.paper1.fundamentals_of_programming.program
 
 import java.util.Arrays;
 
-import static com.karmios.nat.computingwork.Utils.*;
+import static com.karmios.nat.computingwork.utils.Utils.*;
 
 public class NoughtsAndCrosses {
     private static int[][] board = {{-1, -1, -1}, {-1, -1, -1}, {-1, -1, -1}};

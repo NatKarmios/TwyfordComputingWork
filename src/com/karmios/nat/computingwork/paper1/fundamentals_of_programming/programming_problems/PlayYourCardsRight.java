@@ -1,6 +1,6 @@
 package com.karmios.nat.computingwork.paper1.fundamentals_of_programming.programming_problems;
 
-import static com.karmios.nat.computingwork.Utils.*;
+import static com.karmios.nat.computingwork.utils.Utils.*;
 import static com.karmios.nat.computingwork.paper1.fundamentals_of_programming.programming_problems.RandomCardGenerator.*;
 
 @SuppressWarnings("WeakerAccess")

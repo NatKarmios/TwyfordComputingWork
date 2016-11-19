@@ -9,7 +9,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.stream.IntStream;
 
-import com.karmios.nat.computingwork.Utils;
+import com.karmios.nat.computingwork.utils.Utils;
 
 public class Code {
     private static final String FILE_NAME = "Output.txt";
