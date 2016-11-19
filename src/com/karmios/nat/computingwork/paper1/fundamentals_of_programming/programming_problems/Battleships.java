@@ -5,7 +5,7 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
-import static com.karmios.nat.computingwork.Utils.*;
+import static com.karmios.nat.computingwork.utils.Utils.*;
 
 public class Battleships {
     private static Boolean[][] grid = Stream.generate(() ->

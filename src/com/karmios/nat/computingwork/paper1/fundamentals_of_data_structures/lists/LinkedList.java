@@ -2,6 +2,7 @@ package com.karmios.nat.computingwork.paper1.fundamentals_of_data_structures.lis
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -157,6 +158,13 @@ public class LinkedList <T> implements Collection<T> {
         return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iterator(), 0), false);
     }
 
+    public T firstMatch(Predicate<T> condition) {
+        for (T elem : this) {
+            if (condition.test(elem)) return elem;
+        }
+        throw new NoSuchElementException();
+    }
+
     // </editor-fold>
 
 
@@ -204,7 +212,7 @@ public class LinkedList <T> implements Collection<T> {
         }
 
         int indexOf(T elem) {
-            if (elem == this.elem) return 0;
+            if (elem.equals(this.elem)) return 0;
             return ref.indexOf(elem)+1;
         }
     }

@@ -1,10 +1,13 @@
 package com.karmios.nat.computingwork.paper1.fundamentals_of_data_structures.half_term_project;
 
-import static com.karmios.nat.computingwork.Utils.*;
+import static com.karmios.nat.computingwork.utils.Utils.*;
 
+@SuppressWarnings("unused")
 abstract class Person {
     private String name, address;
     private Gender gender;
+
+    // <editor-fold desc="Constructors">
 
     Person(String name, String address, Gender gender) {
         this.name = name;
@@ -22,6 +25,10 @@ abstract class Person {
         );
     }
 
+    // </editor-fold>
+
+    // <editor-fold desc="Getters">
+
     public String getName() {
         return name;
     }
@@ -34,5 +41,30 @@ abstract class Person {
         return gender;
     }
 
+    // </editor-fold>
+
+    // <editor-fold desc="Setters">
+
+    protected void setName(String name) {
+        this.name = name;
+    }
+
+    protected void setAddress(String address) {
+        this.address = address;
+    }
+
+    protected void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    // </editor-fold>
+
     enum Gender {MALE, FEMALE}
+
+    @Override
+    public String toString() {
+        return "Name: " + name +
+                ", Address: " + address +
+                ", Gender: " + gender;
+    }
 }
