@@ -1,35 +1,83 @@
 package com.karmios.nat.computingwork.paper1.fundamentals_of_data_structures.lists;
 
-import com.codepoetics.protonpack.Streamable;
-
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Spliterators;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+import static com.codepoetics.protonpack.StreamUtils.zipWithIndex;
+
 @SuppressWarnings("WeakerAccess")
-public class LinkedList <T> implements Streamable<T> {
+public class LinkedList <T> implements Collection<T> {
     private Node headNode;
     public LinkedList(){}
 
     public LinkedList(LinkedList<T> list) {
-        for (int index = 0; index < list.length(); index++) {
-            this.append(list.get(index));
+        for (int index = 0; index < list.size(); index++) {
+            this.add(list.get(index));
         }
     }
 
 
-    // <editor-fold desc="List operations">
+    // <editor-fold desc="Collection operations">
 
-    public int length() {
+    public int size() {
         if (headNode == null) return 0;
         return headNode.size();
     }
 
-    public void append(T elem) {
+    public boolean add(T elem) {
         if (headNode == null) headNode = new Node(elem);
         else headNode.append(elem);
+        return true;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public boolean remove(Object o) {
+        try {
+            remove(indexOf((T) o));
+            return true;
+        }
+        catch (ClassCastException e) {
+            return false;
+        }
+        catch (IndexOutOfBoundsException e) {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean containsAll(Collection<?> c) {
+        final AtomicBoolean found = new AtomicBoolean(true);
+        c.forEach(x -> found.set(contains(x) && found.get()));
+        return found.get();
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends T> c) {
+        final AtomicBoolean changed = new AtomicBoolean(false);
+        c.forEach(x -> changed.set(add(x) || changed.get()));
+        return changed.get();
+    }
+
+    @Override
+    public boolean removeAll(Collection<?> c) {
+        final AtomicBoolean changed = new AtomicBoolean(false);
+        c.forEach(x -> changed.set(remove(x) || changed.get()));
+        return changed.get();
+    }
+
+    @Override
+    public boolean retainAll(Collection<?> c) {
+        AtomicBoolean changed = new AtomicBoolean(false);
+        forEach(t -> changed.set(contains(c) ? remove(c) || changed.get() : changed.get()));
+        return changed.get();
+    }
+
+    @Override
+    public void clear() {
+        while (headNode != null) remove(0);
     }
 
     public T get(int index) {
@@ -44,6 +92,7 @@ public class LinkedList <T> implements Streamable<T> {
 
     public void remove(int index) {
         try {
+            if (index < 0) throw new NullPointerException();
             if (index == 0) headNode = headNode.ref;
             headNode.remove(index);
         }
@@ -61,11 +110,25 @@ public class LinkedList <T> implements Streamable<T> {
         }
     }
 
+    public boolean isEmpty() {
+        return headNode == null;
+    }
+
+    @SuppressWarnings("unchecked")
+    public boolean contains(Object o) {
+        try {
+            return indexOf((T) o) > -1;
+        }
+        catch (ClassCastException e) {
+            return false;
+        }
+    }
+
     // </editor-fold>
 
 
     private IndexOutOfBoundsException outOfBounds(int i) {
-        return new IndexOutOfBoundsException("list length is " + length() + ", index given is " + i);
+        return new IndexOutOfBoundsException("list size is " + size() + ", index given is " + i);
     }
 
 
@@ -73,6 +136,21 @@ public class LinkedList <T> implements Streamable<T> {
 
     public LinkedListIterator iterator(){
         return new LinkedListIterator(this);
+    }
+
+    @Override
+    public Object[] toArray() {
+        Object[] arr = new Object[size()];
+        zipWithIndex(stream()).forEach(item -> arr[(int)item.getIndex()] = item.getValue());
+        return arr;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <X> X[] toArray(X[] a) {
+        X[] arr = a.length >= size() ? a : (X[])new Object[size()];
+        zipWithIndex(stream()).forEach(item -> arr[(int)item.getIndex()] = (X)item.getValue());
+        return arr;
     }
 
     public Stream<T> stream() {
@@ -87,11 +165,6 @@ public class LinkedList <T> implements Streamable<T> {
     @Override
     public String toString() {
         return "[" + headNode.toString() + "]";
-    }
-
-    @Override
-    public Stream<T> get() {
-        return stream();
     }
 
     // </editor-fold>
@@ -146,7 +219,7 @@ public class LinkedList <T> implements Streamable<T> {
 
         @Override
         public boolean hasNext() {
-            return current < list.length();
+            return current < list.size();
         }
 
         @Override
@@ -165,13 +238,13 @@ public class LinkedList <T> implements Streamable<T> {
 
     public static void main(String[] args) {
         LinkedList<Integer> ls = new LinkedList<>();
-        System.out.println(ls.length());
-        ls.append(1);
-        System.out.println(ls.length());
+        System.out.println(ls.size());
+        ls.add(1);
+        System.out.println(ls.size());
         Integer five = 5;
-        ls.append(five);
-        ls.append(3);
-        System.out.println(ls.length());
+        ls.add(five);
+        ls.add(3);
+        System.out.println(ls.size());
         System.out.println(ls);
         System.out.println(ls.indexOf(five));
         ls.remove(1);
