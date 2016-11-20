@@ -2,6 +2,7 @@ package com.karmios.nat.computingwork.paper1.fundamentals_of_data_structures.hal
 
 import com.karmios.nat.computingwork.paper1.fundamentals_of_data_structures.lists.LinkedList;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -79,6 +80,7 @@ public class CollegeRegistration {
     // <editor-fold desc="Input Functions">
 
     static Department inputDepartment() {
+        System.out.println("Available courses: " + Arrays.toString(Department.values()).replace("[", "".replace("]", "")));
         return Department.valueOf(inputLoop("Enter department: ", "Invalid department!",
                 runsCleanly(str -> { Department.valueOf(str.toUpperCase()); })).toUpperCase());
     }
