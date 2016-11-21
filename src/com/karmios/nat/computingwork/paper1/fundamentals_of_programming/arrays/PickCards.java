@@ -3,10 +3,15 @@ package com.karmios.nat.computingwork.paper1.fundamentals_of_programming.arrays;
 import java.util.Random;
 import java.util.stream.IntStream;
 
-public class PickCards {
-    static int card;
+@SuppressWarnings("Duplicates")
+public class PickCards implements Runnable{
+    private int card;
 
     public static void main(String[] args) {
+
+    }
+
+    public void run() {
         int[] picks = new int[4];
         Random rng = new Random();
 
@@ -18,7 +23,7 @@ public class PickCards {
             picks[i] = card;
 
             String suit = "";
-            switch (card/13) {
+            switch (card / 13) {
                 case 0:
                     suit = "Spades";
                     break;
@@ -34,7 +39,7 @@ public class PickCards {
             }
 
             String num;
-            switch (card%13) {
+            switch (card % 13) {
                 case 10:
                     num = "Jack";
                     break;
@@ -48,7 +53,7 @@ public class PickCards {
                     num = "Ace";
                     break;
                 default:
-                    num = String.valueOf((card%13)+1);
+                    num = String.valueOf((card % 13) + 1);
                     break;
             }
 

@@ -9,7 +9,7 @@ import java.util.stream.StreamSupport;
 import static com.codepoetics.protonpack.StreamUtils.zipWithIndex;
 
 @SuppressWarnings("WeakerAccess")
-public class LinkedList <T> implements Collection<T> {
+public class LinkedList <T> implements Collection<T>, Runnable {
     private Node headNode;
     public LinkedList(){}
 
@@ -245,6 +245,10 @@ public class LinkedList <T> implements Collection<T> {
 
 
     public static void main(String[] args) {
+        new LinkedList<>().run();
+    }
+
+    public void run() {
         LinkedList<Integer> ls = new LinkedList<>();
         System.out.println(ls.size());
         ls.add(1);

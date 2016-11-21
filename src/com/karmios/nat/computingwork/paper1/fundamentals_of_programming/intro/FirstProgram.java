@@ -1,10 +1,12 @@
 package com.karmios.nat.computingwork.paper1.fundamentals_of_programming.intro;
 
-/**
- * Created by Nat on 07/09/2016.
- */
-public class FirstProgram {
+public class FirstProgram implements Runnable {
     public static void main(String[] args) {
+        new FirstProgram().run();
+    }
+
+    @Override
+    public void run() {
         System.out.println("Programming is fun!");
         System.out.println("Fundamentals First");
         System.out.println("Problem Driven");

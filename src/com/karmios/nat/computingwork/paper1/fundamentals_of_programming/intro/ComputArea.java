@@ -2,8 +2,13 @@ package com.karmios.nat.computingwork.paper1.fundamentals_of_programming.intro;
 
 import java.util.Scanner;
 
-public class ComputArea {
+public class ComputArea implements Runnable {
     public static void main(String[] args) {
+        new ComputArea().run();
+    }
+
+    @Override
+    public void run() {
         double radius, area;  // Declare radius and area variables
 
         System.out.print("Enter radius: ");

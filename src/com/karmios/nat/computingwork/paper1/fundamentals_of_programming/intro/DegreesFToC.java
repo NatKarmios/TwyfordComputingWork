@@ -1,11 +1,17 @@
 package com.karmios.nat.computingwork.paper1.fundamentals_of_programming.intro;
 
-/**
- * Created by Nat on 12/09/2016.
- */
-public class DegreesFToC {
+import java.util.function.Consumer;
+
+import static com.karmios.nat.computingwork.utils.Utils.*;
+
+public class DegreesFToC implements Runnable {
     public static void main(String[] args) {
-        System.out.print("Enter degrees Farenheit");
-        // (5.0/9.0) * (new Scanner(System.in).nextDouble());
+        new DegreesFToC().run();
+    }
+
+    @Override
+    public void run() {
+        System.out.println(((5.0/9.0) * Double.valueOf(
+                inputLoop("Enter Degrees Fahrenheit: ", runsCleanly((Consumer<String>) Double::valueOf)))) + "°C");
     }
 }

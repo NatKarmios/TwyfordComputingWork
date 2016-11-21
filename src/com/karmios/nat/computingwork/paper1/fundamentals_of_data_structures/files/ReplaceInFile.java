@@ -7,8 +7,13 @@ import java.nio.file.Files;
 
 import static com.karmios.nat.computingwork.utils.Utils.*;
 
-public class ReplaceInFile {
+public class ReplaceInFile implements Runnable {
     public static void main(String[] args) {
+        new ReplaceInFile().run();
+    }
+
+    @Override
+    public void run() {
         System.out.print("Input file - ");
         final File input = getFile(true);
         System.out.print("Output file - ");

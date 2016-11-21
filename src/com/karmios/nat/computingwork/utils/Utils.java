@@ -3,10 +3,7 @@ package com.karmios.nat.computingwork.utils;
 import java.nio.file.FileSystems;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.IntPredicate;
 import java.util.function.Predicate;
@@ -14,8 +11,9 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
-public abstract class Utils {
+public final class Utils {
     private static final Scanner sc = new Scanner(System.in);
+    public static final Random rng = new Random();
 
     public static String getDir(Class cls) {
         String sep = FileSystems.getDefault().getSeparator();

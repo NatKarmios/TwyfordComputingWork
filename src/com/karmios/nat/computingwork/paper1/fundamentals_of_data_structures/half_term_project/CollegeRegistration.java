@@ -8,27 +8,31 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.karmios.nat.computingwork.utils.Utils.*;
 
-public class CollegeRegistration {
-    private static final AtomicBoolean running = new AtomicBoolean(true);
-    private static final HashMap<String, RunnableWithException<ActionCancelledException>> options = new HashMap<>();
-    private static final LinkedList<Student> students = new LinkedList<>();
-    private static final LinkedList<Teacher> teachers = new LinkedList<>();
-    private static final LinkedList<Course> courses = new LinkedList<>();
+public class CollegeRegistration implements Runnable {
+    private final AtomicBoolean running = new AtomicBoolean(true);
+    private final HashMap<String, RunnableWithException<ActionCancelledException>> options = new HashMap<>();
+    private final LinkedList<Student> students = new LinkedList<>();
+    private final LinkedList<Teacher> teachers = new LinkedList<>();
+    private final LinkedList<Course> courses = new LinkedList<>();
 
     // Populate options HashMap
-    static {
+    {
         options.put("", () -> running.set(false));
 
         options.put(".s", () -> printList(students));
         options.put(".t", () -> printList(teachers));
         options.put(".c", () -> printList(courses));
 
-        options.put("+s", CollegeRegistration::addStudent);
-        options.put("+t", CollegeRegistration::addTeacher);
-        options.put("+c", CollegeRegistration::addCourse);
+        options.put("+s", this::addStudent);
+        options.put("+t", this::addTeacher);
+        options.put("+c", this::addCourse);
     }
 
     public static void main(String[] args) {
+        new CollegeRegistration().run();
+    }
+
+    public void run() {
         while (running.get()) {
             System.out.println("\nPlease enter two characters - '+' to add or '.' to list, " +
                     "followed by 's' for students, 't' for teachers or 'c' for courses; enter nothing to stop.");
@@ -44,27 +48,27 @@ public class CollegeRegistration {
 
     // <editor-fold desc="Addition Functions">
 
-    private static void addStudent(Student student) {
+    private void addStudent(Student student) {
         students.add(student);
     }
 
-    private static void addStudent() {
+    private void addStudent() {
         addStudent(new Student());
     }
 
-    private static void addTeacher(Teacher teacher) {
+    private void addTeacher(Teacher teacher) {
         teachers.add(teacher);
     }
 
-    private static void addTeacher() throws ActionCancelledException {
+    private void addTeacher() throws ActionCancelledException {
         addTeacher(new Teacher());
     }
 
-    private static void addCourse(Course course) {
+    private void addCourse(Course course) {
         courses.add(course);
     }
 
-    private static void addCourse() {
+    private void addCourse() {
         addCourse(new Course());
     }
 
@@ -85,7 +89,7 @@ public class CollegeRegistration {
                 runsCleanly(str -> { Department.valueOf(str.toUpperCase()); })).toUpperCase());
     }
 
-    static Course inputCourse() throws ActionCancelledException {
+    Course inputCourse() throws ActionCancelledException {
         Course course;
         if (courses.isEmpty()){
             System.out.println("There are no available courses!");

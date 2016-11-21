@@ -3,11 +3,17 @@ package com.karmios.nat.computingwork.paper1.fundamentals_of_data_structures.arr
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class ArrayProcesses {
+import static com.karmios.nat.computingwork.utils.Utils.*;
+
+public class ArrayProcesses implements Runnable {
 
     @SuppressWarnings({"SuspiciousMethodCalls", "OptionalGetWithoutIsPresent"})
     public static void main(String[] args) {
+        new ArrayProcesses().run();
+    }
 
+    @Override
+    public void run() {
 //        // Initialise an array with input values
 //        Scanner in = new Scanner(System.in);
 //        int[] inputVals = new int[3];
@@ -18,7 +24,6 @@ public class ArrayProcesses {
 //        System.out.println(arrays.toString(inputVals));
 
         // Initialise an array with input values
-        Random rng = new Random();
         int[] randVals = new int[3];
         for (int i = 0; i < 3; i++) {
             randVals[i] = rng.nextInt(10);
@@ -33,12 +38,12 @@ public class ArrayProcesses {
 
         // Largest number
         int max;
+        //noinspection OptionalGetWithoutIsPresent
         System.out.println("Largest: " + (max=Arrays.stream(randVals).max().getAsInt()));
 
         // Index of largest
         System.out.println(max);
         System.out.println("Index of Largest: " +
                 new ArrayList<>(Arrays.stream(randVals).boxed().collect(Collectors.toList())).indexOf(max));
-
     }
 }

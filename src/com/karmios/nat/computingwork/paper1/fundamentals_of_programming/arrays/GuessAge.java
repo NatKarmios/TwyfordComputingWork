@@ -1,33 +1,31 @@
 package com.karmios.nat.computingwork.paper1.fundamentals_of_programming.arrays;
 
-import java.util.Random;
-import java.util.Scanner;
+import static com.karmios.nat.computingwork.utils.Utils.*;
 
-/**
- * Created by Nat on 29/09/2016.
- */
-public class GuessAge {
-    static int score = 0;
-    static Student[] students = new Student[10];
-
-    static Scanner sc = new Scanner(System.in);
-    static Random rng = new Random();
+public class GuessAge implements Runnable{
+    private int score = 0;
+    private Student[] students = new Student[10];
 
     public static void main(String[] args) {
+        new GuessAge().run();
+    }
+
+    @Override
+    public void run() {
         for (int i = 0; i < 10; i++) students[i] = new Student();
-        printSudents();
+        printStudents();
         for(int i=0; i<10; i++) {
             askQuestion();
         }
         System.out.println("\nFinal score: " + score + " out of 10.");
     }
 
-    static void askQuestion() {
+    private void askQuestion() {
         shuffleStudents();
 
         System.out.print("Guess the age of the student in position 5: ");
         try  {
-            if (Integer.valueOf(sc.nextLine().trim().replace(" ", "")) != students[5].getAge())
+            if (inputIntLoop() != students[5].getAge())
                 throw new NumberFormatException();
         } catch (NumberFormatException e) {
             System.out.println("Wrong, the answer was " + students[5].getAge() + ".\n");
@@ -38,19 +36,19 @@ public class GuessAge {
         score++;
     }
 
-    static void shuffleStudents() {
+    private void shuffleStudents() {
         Student[] shuffled = new Student[students.length];
 
         int place;
-        for(int i=0; i<students.length; i++) {
-            while (shuffled[(place = rng.nextInt(students.length))] != null);
-            shuffled[place] = students[i];
+        for (Student student : students) {
+            while (shuffled[(place = rng.nextInt(students.length))] != null) ;
+            shuffled[place] = student;
         }
 
         students = shuffled;
     }
 
-    static void printSudents() {
+    private void printStudents() {
         System.out.println("Current students: ");
         for (Student stu : students) {
             stu.printPerson();
@@ -60,17 +58,17 @@ public class GuessAge {
 }
 
 abstract class Person {
-    static int numCreated = 1;
+    private static int numCreated = 1;
 
 
-    String nameNum;
-    int age;
+    private String nameNum;
+    private int age;
 
     Person() {
         this(defaultName(), randAge());
     }
 
-    Person(String name, int age) {
+    private Person(String name, int age) {
         nameNum = name;
         this.age = age;
 
@@ -89,6 +87,7 @@ abstract class Person {
         return age;
     }
 
+    @SuppressWarnings("unused")
     void setAge(int age) {
         this.age = age;
     }
@@ -104,10 +103,12 @@ abstract class Person {
     }
 
     static int randAge() {
-        return GuessAge.rng.nextInt(5)+16;
+        return rng.nextInt(5)+16;
     }
 }
 
+
+@SuppressWarnings({"WeakerAccess", "unused"})
 class Student extends Person {
     String form, favouriteSubject;
 
