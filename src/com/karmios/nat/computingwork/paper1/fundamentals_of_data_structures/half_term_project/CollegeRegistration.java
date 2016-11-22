@@ -61,7 +61,7 @@ public class CollegeRegistration implements Runnable {
     }
 
     private void addTeacher() throws ActionCancelledException {
-        addTeacher(new Teacher());
+        addTeacher(new Teacher(this::inputCourse));
     }
 
     private void addCourse(Course course) {
@@ -89,7 +89,7 @@ public class CollegeRegistration implements Runnable {
                 runsCleanly(str -> { Department.valueOf(str.toUpperCase()); })).toUpperCase());
     }
 
-    Course inputCourse() throws ActionCancelledException {
+    private Course inputCourse() throws ActionCancelledException {
         Course course;
         if (courses.isEmpty()){
             System.out.println("There are no available courses!");

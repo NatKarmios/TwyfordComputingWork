@@ -17,12 +17,12 @@ class Teacher extends Person {
         this.course = course;
     }
 
-    Teacher() throws ActionCancelledException {
+    Teacher(SupplierWithException<Course, ActionCancelledException> courseSupplier) throws ActionCancelledException {
         this.department = CollegeRegistration.inputDepartment();
         this.salary = Float.valueOf(inputLoop("Enter salary in thousands of pounds: ",
                                               "Must be a real number and at least 0!",
                                               runsCleanly(str -> Float.valueOf(str) >= 0) ));
-        this.course = CollegeRegistration.inputCourse();
+        this.course = courseSupplier.get();
     }
 
     // </editor-fold>

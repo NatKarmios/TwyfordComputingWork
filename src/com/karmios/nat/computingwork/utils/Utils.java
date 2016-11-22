@@ -327,7 +327,11 @@ public final class Utils {
 
     // </editor-fold>
 
-    public interface RunnableWithException <E extends Throwable>{
+    public interface RunnableWithException <E extends Throwable> {
         void run() throws E;
+    }
+
+    public interface SupplierWithException <T, E extends Throwable> {
+        T get() throws E;
     }
 }
