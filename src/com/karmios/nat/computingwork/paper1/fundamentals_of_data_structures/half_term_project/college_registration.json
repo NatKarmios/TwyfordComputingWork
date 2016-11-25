@@ -1,0 +1,27 @@
+{
+  "students": [
+    {
+      "contactNumber": "2",
+      "name": "s",
+      "address": "a",
+      "gender": "MALE"
+    }
+  ],
+  "teachers": [
+    {
+      "department": "ART",
+      "salary": 10.0,
+      "courseCode": "a-1",
+      "name": "t",
+      "address": "a2",
+      "gender": "FEMALE"
+    }
+  ],
+  "courses": [
+    {
+      "name": "art",
+      "code": "a-1",
+      "department": "ART"
+    }
+  ]
+}
