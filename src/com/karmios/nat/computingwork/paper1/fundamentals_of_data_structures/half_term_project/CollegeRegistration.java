@@ -1,16 +1,25 @@
 package com.karmios.nat.computingwork.paper1.fundamentals_of_data_structures.half_term_project;
 
+import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
 import com.karmios.nat.computingwork.paper1.fundamentals_of_data_structures.lists.LinkedList;
 
+import java.io.*;
+import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.StringJoiner;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import static com.karmios.nat.computingwork.utils.Utils.*;
 
 public class CollegeRegistration implements Runnable {
-    private final AtomicBoolean running = new AtomicBoolean(true);
-    private final HashMap<String, RunnableWithException<ActionCancelledException>> options = new HashMap<>();
+    private final transient AtomicBoolean running = new AtomicBoolean(true);
+    private final transient HashMap<String, RunnableWithException<ActionCancelledException>> options = new HashMap<>();
     private final LinkedList<Student> students = new LinkedList<>();
     private final LinkedList<Teacher> teachers = new LinkedList<>();
     private final LinkedList<Course> courses = new LinkedList<>();
@@ -29,7 +38,7 @@ public class CollegeRegistration implements Runnable {
     }
 
     public static void main(String[] args) {
-        new CollegeRegistration().run();
+        load().run();
     }
 
     public void run() {
@@ -54,6 +63,7 @@ public class CollegeRegistration implements Runnable {
 
     private void addStudent() {
         addStudent(new Student());
+        save();
     }
 
     private void addTeacher(Teacher teacher) {
@@ -62,6 +72,7 @@ public class CollegeRegistration implements Runnable {
 
     private void addTeacher() throws ActionCancelledException {
         addTeacher(new Teacher(this::inputCourse));
+        save();
     }
 
     private void addCourse(Course course) {
@@ -69,7 +80,8 @@ public class CollegeRegistration implements Runnable {
     }
 
     private void addCourse() {
-        addCourse(new Course());
+        addCourse(new Course(this::checkCourseCode));
+        save();
     }
 
     // </editor-fold>
@@ -94,8 +106,9 @@ public class CollegeRegistration implements Runnable {
         if (courses.isEmpty()){
             System.out.println("There are no available courses!");
             if(!inputBoolLoop("Do you want to create a new course? ", true)) throw new ActionCancelledException();
-            course = new Course();
+            course = new Course(this::checkCourseCode);
             addCourse(course);
+            save();
             return course;
         }
         System.out.println("Available courses...");
@@ -109,8 +122,63 @@ public class CollegeRegistration implements Runnable {
 
     }
 
+    private boolean checkCourseCode(String code) {
+        return !courses.stream().map(Course::getCode).anyMatch(code::equals);
+    }
+
+    private Course getCourseFromCode(String courseCode) {
+        return courses.firstMatch(course -> course.getCode().equals(courseCode));
+    }
     // </editor-fold>
 
+    private static CollegeRegistration load() {
+        CollegeRegistration collegeRegistration = new CollegeRegistration();
+        try (Reader reader = new FileReader(getClassDir(CollegeRegistration.class) + "college_registration.json")) {
+            JsonObject jsonObject = new JsonParser().parse(reader).getAsJsonObject();
+
+            StreamSupport.stream(jsonObject.getAsJsonArray("students").spliterator(), false)
+                    .map(JsonElement::getAsJsonObject).forEach(obj ->
+                        collegeRegistration.students.add(new Student(
+                                obj.get("name").getAsString(),
+                                obj.get("address").getAsString(),
+                                Person.Gender.valueOf(obj.get("gender").getAsString()),
+                                obj.get("contactNumber").getAsString()
+                        )));
+
+            StreamSupport.stream(jsonObject.getAsJsonArray("courses").spliterator(), false)
+                    .map(JsonElement::getAsJsonObject).forEach(obj ->
+                    collegeRegistration.courses.add(new Course(
+                            obj.get("name").getAsString(),
+                            obj.get("code").getAsString(),
+                            Department.valueOf(obj.get("department").getAsString())
+                    )));
+
+            StreamSupport.stream(jsonObject.getAsJsonArray("teachers").spliterator(), false)
+                    .map(JsonElement::getAsJsonObject).forEach(obj ->
+                    collegeRegistration.teachers.add(new Teacher(
+                            obj.get("name").getAsString(),
+                            obj.get("address").getAsString(),
+                            Person.Gender.valueOf(obj.get("gender").getAsString()),
+                            Department.valueOf(obj.get("department").getAsString()),
+                            obj.get("salary").getAsFloat(),
+                            obj.get("courseCode").getAsString(),
+                            collegeRegistration::getCourseFromCode
+                    )));
+        }
+        catch (IOException e) {
+            System.err.println("Failed to load from file!");
+        }
+        return collegeRegistration;
+    }
+
+    private void save() {
+        try (FileWriter writer = new FileWriter(getClassDir(this.getClass()) + "college_registration.json")) {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            gson.toJson(this, writer);
+        } catch (IOException e) {
+            System.err.println("Failed to save to file!");
+        }
+    }
 }
 
 @SuppressWarnings("unused")

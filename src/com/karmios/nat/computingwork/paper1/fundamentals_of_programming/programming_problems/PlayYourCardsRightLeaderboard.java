@@ -20,7 +20,7 @@ import static com.karmios.nat.computingwork.utils.Utils.*;
 
 
 public class PlayYourCardsRightLeaderboard {
-    private static final String FILEPATH = getDir(PlayYourCardsRightLeaderboard.class) + "leaderboard.txt";
+    private static final String FILEPATH = getClassDir(PlayYourCardsRightLeaderboard.class) + "leaderboard.txt";
     private static final File FILE = new File(FILEPATH);
 
     public static void main(String[] args) {

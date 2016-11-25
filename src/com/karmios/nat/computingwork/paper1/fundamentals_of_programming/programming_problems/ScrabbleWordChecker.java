@@ -15,7 +15,7 @@ import static com.karmios.nat.computingwork.utils.Utils.*;
 
 public class ScrabbleWordChecker {
 
-    private static final File WORDS_LIST = new File(getDir(ScrabbleWordChecker.class) + "scrabblewords.txt");
+    private static final File WORDS_LIST = new File(getClassDir(ScrabbleWordChecker.class) + "scrabblewords.txt");
 
     private static final HashMap<Character, Integer> scores = new HashMap<>();
     static {

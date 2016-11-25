@@ -1,5 +1,7 @@
 package com.karmios.nat.computingwork.paper1.fundamentals_of_data_structures.half_term_project;
 
+import java.util.function.Predicate;
+
 import static com.karmios.nat.computingwork.utils.Utils.*;
 
 @SuppressWarnings("unused")
@@ -14,6 +16,14 @@ class Course {
         this.name = name;
         this.code = code;
         this.department = department;
+    }
+
+    Course(Predicate<String> codeChecker) {
+        this(
+                input("Enter course name: "),
+                inputLoop("Enter course code: ", "Course code must be unique!", codeChecker),
+                CollegeRegistration.inputDepartment()
+        );
     }
 
     Course() {

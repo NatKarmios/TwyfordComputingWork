@@ -67,7 +67,7 @@ public class Code {
     }
 
     private static void writeResult (String name, int score) {
-        String fileName = Utils.getDir(Code.class) + FILE_NAME;
+        String fileName = Utils.getClassDir(Code.class) + FILE_NAME;
         try {
             Files.write(
                     Paths.get(fileName), String.format("%s, %s%n", name, score).getBytes(), StandardOpenOption.APPEND);

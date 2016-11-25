@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.IntPredicate;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
@@ -15,7 +16,7 @@ public final class Utils {
     private static final Scanner sc = new Scanner(System.in);
     public static final Random rng = new Random();
 
-    public static String getDir(Class cls) {
+    public static String getClassDir(Class cls) {
         String sep = FileSystems.getDefault().getSeparator();
         return System.getProperty("user.dir") + sep + "src" + sep + cls.getPackage().getName().replace(".", sep) + sep;
     }
@@ -333,5 +334,9 @@ public final class Utils {
 
     public interface SupplierWithException <T, E extends Throwable> {
         T get() throws E;
+    }
+
+    public interface FunctionWithException <T, R, E extends Throwable> {
+        R apply(T t) throws E;
     }
 }

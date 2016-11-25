@@ -50,7 +50,7 @@ public class ReplaceInFile implements Runnable {
                 mustExist ? (str -> str.equals(".") || new File(str).isFile()) : STRING_TRUE);
 
         if (path.equals(".")) {
-            final String currentDir = getDir(ReplaceInFile.class);
+            final String currentDir = getClassDir(ReplaceInFile.class);
             path = currentDir + inputLoop(currentDir, "File must exist!",
                     mustExist ? (str -> new File(currentDir+str).isFile()) : STRING_TRUE);
         }
