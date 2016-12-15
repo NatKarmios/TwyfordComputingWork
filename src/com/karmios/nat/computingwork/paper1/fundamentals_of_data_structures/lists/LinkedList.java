@@ -1,5 +1,7 @@
 package com.karmios.nat.computingwork.paper1.fundamentals_of_data_structures.lists;
 
+//TODO FINISH
+
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
@@ -9,7 +11,7 @@ import java.util.stream.StreamSupport;
 import static com.codepoetics.protonpack.StreamUtils.zipWithIndex;
 
 @SuppressWarnings("WeakerAccess")
-public class LinkedList <T> implements Collection<T>, Runnable {
+public class LinkedList <T> implements List<T>, Runnable {
     private Node headNode;
     public LinkedList(){}
 
@@ -18,6 +20,7 @@ public class LinkedList <T> implements Collection<T>, Runnable {
             this.add(list.get(index));
         }
     }
+
 
 
     // <editor-fold desc="Collection operations">
@@ -40,10 +43,7 @@ public class LinkedList <T> implements Collection<T>, Runnable {
             remove(indexOf((T) o));
             return true;
         }
-        catch (ClassCastException e) {
-            return false;
-        }
-        catch (IndexOutOfBoundsException e) {
+        catch (ClassCastException | IndexOutOfBoundsException e) {
             return false;
         }
     }
@@ -60,6 +60,11 @@ public class LinkedList <T> implements Collection<T>, Runnable {
         final AtomicBoolean changed = new AtomicBoolean(false);
         c.forEach(x -> changed.set(add(x) || changed.get()));
         return changed.get();
+    }
+
+    @Override
+    public boolean addAll(int index, Collection<? extends T> c) {
+        return false;
     }
 
     @Override
@@ -91,34 +96,71 @@ public class LinkedList <T> implements Collection<T>, Runnable {
         }
     }
 
-    public void remove(int index) {
+    @Override
+    public T set(int index, T element) {
+        return null;
+    }
+
+    @Override
+    public void add(int index, T element) {
+
+    }
+
+    public T remove(int index) {
         try {
             if (index < 0) throw new NullPointerException();
             if (index == 0) headNode = headNode.ref;
-            headNode.remove(index);
+            return headNode.remove(index);
         }
         catch (NullPointerException e) {
             throw outOfBounds(index);
         }
     }
 
-    public int indexOf(T elem) {
+    @SuppressWarnings("unchecked")
+    @Override
+    public int indexOf(Object o) {
         try {
-            return headNode.indexOf(elem);
+            return headNode.indexOf((T) o);
         }
-        catch (NullPointerException e) {
+        catch (NullPointerException | ClassCastException e) {
             return -1;
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public int lastIndexOf(Object o) {
+        try {
+            return headNode.lastIndexOf((T) o, -1, 0);
+        }
+        catch (NullPointerException | ClassCastException e) {
+            return -1;
+        }
+    }
+
+    @Override
+    public ListIterator<T> listIterator() {
+        return null;
+    }
+
+    @Override
+    public ListIterator<T> listIterator(int index) {
+        return null;
+    }
+
+    @Override
+    public List<T> subList(int fromIndex, int toIndex) {
+        return null;
     }
 
     public boolean isEmpty() {
         return headNode == null;
     }
 
-    @SuppressWarnings("unchecked")
     public boolean contains(Object o) {
         try {
-            return indexOf((T) o) > -1;
+            return indexOf(o) > -1;
         }
         catch (ClassCastException e) {
             return false;
@@ -206,14 +248,24 @@ public class LinkedList <T> implements Collection<T>, Runnable {
             return ref.get(index-1);
         }
 
-        void remove(int index) {
-            if (index == 1) ref = ref.ref;
-            else ref.remove(index-1);
+        T remove(int index) {
+            if (index == 1) {
+                T result = ref.elem;
+                ref = ref.ref;
+                return result;
+            }
+            else return ref.remove(index-1);
         }
 
         int indexOf(T elem) {
             if (elem.equals(this.elem)) return 0;
             return ref.indexOf(elem)+1;
+        }
+
+        int lastIndexOf(T elem, int last, int i) {
+            if (elem.equals(this.elem)) last = i;
+            if (ref == null) return last;
+            return ref.lastIndexOf(elem, last, i+1);
         }
     }
 
@@ -241,6 +293,65 @@ public class LinkedList <T> implements Collection<T>, Runnable {
         }
     }
 
+    private class LinkedListListIterator implements ListIterator<T> {
+        private LinkedList<T> ls;
+        private int i = 0;
+        private Boolean next = null;
+        public LinkedListListIterator(LinkedList<T> ls) {
+            this(ls, 0);
+        }
+
+        public LinkedListListIterator(LinkedList<T> ls, int i) {
+            this.ls = ls;
+            this.i = i;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return i < ls.size()-1;
+        }
+
+        @Override
+        public T next() {
+            return ls.get(i++);
+        }
+
+        @Override
+        public boolean hasPrevious() {
+            return i > 0;
+        }
+
+        @Override
+        public T previous() {
+            return ls.get((i--)-1);
+        }
+
+        @Override
+        public int nextIndex() {
+            return i;
+        }
+
+        @Override
+        public int previousIndex() {
+            return i-1;
+        }
+
+        @Override
+        public void remove() {
+
+        }
+
+        @Override
+        public void set(T t) {
+
+        }
+
+        @Override
+        public void add(T t) {
+
+        }
+    }
+
     // </editor-fold>
 
 
@@ -263,3 +374,4 @@ public class LinkedList <T> implements Collection<T>, Runnable {
         System.out.println(ls);
     }
 }
+
