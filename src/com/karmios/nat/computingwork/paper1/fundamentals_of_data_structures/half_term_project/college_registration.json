@@ -5,6 +5,12 @@
       "name": "s",
       "address": "a",
       "gender": "MALE"
+    },
+    {
+      "contactNumber": "092425",
+      "name": "Nat",
+      "address": "Twyford",
+      "gender": "MALE"
     }
   ],
   "teachers": [
@@ -15,6 +21,14 @@
       "name": "t",
       "address": "a2",
       "gender": "FEMALE"
+    },
+    {
+      "department": "COMPUTING",
+      "salary": 234.0,
+      "courseCode": "a-1",
+      "name": "Dawkins",
+      "address": "Twyford",
+      "gender": "MALE"
     }
   ],
   "courses": [
@@ -22,6 +36,11 @@
       "name": "art",
       "code": "a-1",
       "department": "ART"
+    },
+    {
+      "name": "Computing",
+      "code": "c-1",
+      "department": "COMPUTING"
     }
   ]
 }
