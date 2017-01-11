@@ -9,7 +9,7 @@ public class BinarySort {
         System.out.println(Arrays.toString(arr));
     }
 
-    static void sort(int[] arr, int index) {
+    private static void sort(int[] arr, int index) {
         if (index == arr.length) return;
         int min = minIndex(arr, index);
         int temp = arr[min];
@@ -18,7 +18,7 @@ public class BinarySort {
         sort(arr, index+1);
     }
 
-    static int minIndex(int[] arr, int start) {
+    private static int minIndex(int[] arr, int start) {
         int index = -1;
         int min = Integer.MAX_VALUE;
 

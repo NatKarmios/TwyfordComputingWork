@@ -1,10 +1,11 @@
 package com.karmios.nat.computingwork.paper1.fundamentals_of_programming.oop.vehicles;
 
 
+@SuppressWarnings("unused")
 public class Car {
-    String make, model;
-    int numberOfPassangers;
-    float currentSpeed, amountOfPetrol;
+    private String make, model;
+    private int numberOfPassangers;
+    private float currentSpeed, amountOfPetrol;
 
     public Car(String make, String model, int numberOfPassangers, float currentSpeed, float amountOfPetrol) {
         this.make = make;
@@ -39,7 +40,7 @@ public class Car {
         return amountOfPetrol;
     }
 
-    void accelerate(float amount) {
+    private void accelerate(float amount) {
         currentSpeed += amount;
     }
 

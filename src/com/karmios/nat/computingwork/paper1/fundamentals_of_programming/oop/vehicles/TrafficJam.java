@@ -6,7 +6,7 @@ import java.util.stream.IntStream;
 
 public class TrafficJam {
     private static Random rng = new Random();
-    static final String[] MAKES = {
+    private static final String[] MAKES = {
             "Ford", "Honda", "Ferrari", "Porsche", "Mercedes", "BMW", "Mitsubishi", "Peugeot", "Bentley", "Nissan"
     };
 

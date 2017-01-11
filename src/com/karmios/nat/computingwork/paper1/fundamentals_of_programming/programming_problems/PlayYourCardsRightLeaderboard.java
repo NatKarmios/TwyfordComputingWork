@@ -76,8 +76,9 @@ public class PlayYourCardsRightLeaderboard {
         final String name;
         final int score;
 
+        @SuppressWarnings("unused")
         public static final Comparator<Score> compareLength =
-                (score1, score2) -> score1.name.length() - score2.name.length();
+                Comparator.comparingInt(score1 -> score1.name.length());
 
 
         Score(String name, int score) {

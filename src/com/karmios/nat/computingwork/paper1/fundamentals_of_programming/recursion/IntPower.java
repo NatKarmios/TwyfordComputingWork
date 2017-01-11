@@ -2,9 +2,6 @@ package com.karmios.nat.computingwork.paper1.fundamentals_of_programming.recursi
 
 import java.util.Scanner;
 
-/**
- * Created by Nat on 10/10/2016.
- */
 public class IntPower {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -17,7 +14,7 @@ public class IntPower {
         System.out.println(base + "^" + exp  + " = " + intPow(base, exp));
     }
 
-    static int intPow(int base, int exp) {
+    private static int intPow(int base, int exp) {
         return exp == 0 ? 1 : base * intPow(base, exp-1);
     }
 }

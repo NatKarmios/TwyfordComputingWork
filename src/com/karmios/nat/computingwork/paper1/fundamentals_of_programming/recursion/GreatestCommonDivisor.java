@@ -2,9 +2,6 @@ package com.karmios.nat.computingwork.paper1.fundamentals_of_programming.recursi
 
 import java.util.Scanner;
 
-/**
- * Created by Nat on 10/10/2016.
- */
 public class GreatestCommonDivisor {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -18,7 +15,7 @@ public class GreatestCommonDivisor {
         System.out.println("The Greatest Common Divisor of " + num1 + " and " + num2 + " is " + GCD(num1, num2) );
     }
 
-    static int GCD(int a, int b) {
+    private static int GCD(int a, int b) {
         return b==0 ? a : GCD(b, a%b);
     }
 }

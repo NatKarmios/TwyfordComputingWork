@@ -10,14 +10,14 @@ import java.util.stream.StreamSupport;
 
 import static com.codepoetics.protonpack.StreamUtils.zipWithIndex;
 
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings({"WeakerAccess", "ConstantConditions"})
 public class LinkedList <T> implements List<T>, Runnable {
     private Node headNode;
     public LinkedList(){}
 
     public LinkedList(LinkedList<T> list) {
-        for (int index = 0; index < list.size(); index++) {
-            this.add(list.get(index));
+        for (T aList : list) {
+            this.add(aList);
         }
     }
 
@@ -40,7 +40,7 @@ public class LinkedList <T> implements List<T>, Runnable {
     @Override
     public boolean remove(Object o) {
         try {
-            remove(indexOf((T) o));
+            remove(indexOf(o));
             return true;
         }
         catch (ClassCastException | IndexOutOfBoundsException e) {
@@ -293,6 +293,7 @@ public class LinkedList <T> implements List<T>, Runnable {
         }
     }
 
+    @SuppressWarnings("unused")
     private class LinkedListListIterator implements ListIterator<T> {
         private LinkedList<T> ls;
         private int i = 0;

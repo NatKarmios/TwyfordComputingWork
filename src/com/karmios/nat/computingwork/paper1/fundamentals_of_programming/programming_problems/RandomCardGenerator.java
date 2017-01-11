@@ -7,14 +7,14 @@ import org.apache.commons.lang3.ArrayUtils;
 
 @SuppressWarnings("Duplicates")
 public class RandomCardGenerator {
-    static boolean[] picked = new boolean[52];
-    static Random rng = new Random();
+    private static boolean[] picked = new boolean[52];
+    private static Random rng = new Random();
 
     public static void main(String[] args) {
         System.out.println(getCardStr());
     }
 
-    public static int getCard() {
+    static int getCard() {
         int card;
         do {
             card = rng.nextInt(52);
@@ -24,11 +24,11 @@ public class RandomCardGenerator {
         return card;
     }
 
-    public static String getCardStr() {
+    private static String getCardStr() {
         return getCardStr(getCard());
     }
 
-    public static String getCardStr(int card) {
+    static String getCardStr(int card) {
         String suit = "";
         switch (card/13) {
             case 0:
@@ -67,7 +67,7 @@ public class RandomCardGenerator {
         return num + " of " + suit;
     }
 
-    public static int numPicked() {
+    static int numPicked() {
         return (int) Arrays.stream(ArrayUtils.toObject(picked)).filter(x -> x).count();
     }
 }

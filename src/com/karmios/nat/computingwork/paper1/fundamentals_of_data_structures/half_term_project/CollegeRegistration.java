@@ -1,18 +1,15 @@
 package com.karmios.nat.computingwork.paper1.fundamentals_of_data_structures.half_term_project;
 
 import com.google.gson.*;
-import com.google.gson.reflect.TypeToken;
 import com.karmios.nat.computingwork.paper1.fundamentals_of_data_structures.lists.LinkedList;
 
-import java.io.*;
-import java.lang.reflect.Type;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Reader;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.StringJoiner;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static com.karmios.nat.computingwork.utils.Utils.*;
@@ -123,7 +120,7 @@ public class CollegeRegistration implements Runnable {
     }
 
     private boolean checkCourseCode(String code) {
-        return !courses.stream().map(Course::getCode).anyMatch(code::equals);
+        return courses.stream().map(Course::getCode).noneMatch(code::equals);
     }
 
     private Course getCourseFromCode(String courseCode) {

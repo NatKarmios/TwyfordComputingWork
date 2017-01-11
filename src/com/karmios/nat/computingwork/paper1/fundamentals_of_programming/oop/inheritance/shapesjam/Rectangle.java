@@ -1,9 +1,10 @@
 package com.karmios.nat.computingwork.paper1.fundamentals_of_programming.oop.inheritance.shapesjam;
 
+@SuppressWarnings("unused")
 public class Rectangle extends GeometricObject {
     private double width, height;
 
-    public Rectangle(double width, double height) {
+    Rectangle(double width, double height) {
         this.width = width;
         this.height = height;
     }
@@ -31,11 +32,11 @@ public class Rectangle extends GeometricObject {
         this.height = height;
     }
 
-    public double getAres() {
+    double getAres() {
         return width*height;
     }
 
-    public double getPerimiter() {
+    double getPerimiter() {
         return width*2 + height*2;
     }
 

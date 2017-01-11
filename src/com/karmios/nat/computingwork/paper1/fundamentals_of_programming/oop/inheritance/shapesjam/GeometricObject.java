@@ -2,16 +2,17 @@ package com.karmios.nat.computingwork.paper1.fundamentals_of_programming.oop.inh
 
 import java.time.LocalDate;
 
+@SuppressWarnings("unused")
 public class GeometricObject {
     private String color;
     private boolean filled;
     private LocalDate dateCreated;
 
-    public GeometricObject() {
+    GeometricObject() {
         this("white", false);
     }
 
-    public GeometricObject(String color, boolean filled) {
+    GeometricObject(String color, boolean filled) {
         this.color = color;
         this.filled = filled;
         this.dateCreated = LocalDate.now();

@@ -1,5 +1,6 @@
 package com.karmios.nat.computingwork.paper1.fundamentals_of_programming.oop.inheritance.shapesjam;
 
+@SuppressWarnings("unused")
 public class Circle extends GeometricObject{
     private double radius;
 
@@ -7,7 +8,7 @@ public class Circle extends GeometricObject{
         this(1.0);
     }
 
-    public Circle(double radius) {
+    Circle(double radius) {
         this.radius = radius;
     }
 
@@ -16,7 +17,7 @@ public class Circle extends GeometricObject{
         this.radius = radius;
     }
 
-    public double getRadius() {
+    double getRadius() {
         return radius;
     }
 
@@ -24,11 +25,11 @@ public class Circle extends GeometricObject{
         this.radius = radius;
     }
 
-    public double getArea() {
+    double getArea() {
         return radius*radius*Math.PI;
     }
 
-    public double getPerimiter() {
+    double getPerimiter() {
         return radius*2*Math.PI;
     }
 
