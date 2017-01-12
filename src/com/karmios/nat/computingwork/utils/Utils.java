@@ -20,6 +20,9 @@ public final class Utils {
         return System.getProperty("user.dir") + sep + "src" + sep + cls.getPackage().getName().replace(".", sep) + sep;
     }
 
+    public static int randInt(int lowerBound, int upperBound) {
+        return rng.nextInt(upperBound-lowerBound) + lowerBound;
+    }
 
     // <editor-fold desc="Constant Predicates">
 
