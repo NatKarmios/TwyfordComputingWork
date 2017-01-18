@@ -5,6 +5,7 @@ import com.sun.istack.internal.Nullable;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+@SuppressWarnings("WeakerAccess")
 public class Queue <E> {
     @Nullable
     private Node headNode, tailNode;
