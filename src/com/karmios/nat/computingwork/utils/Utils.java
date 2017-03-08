@@ -12,8 +12,15 @@ import java.util.stream.Stream;
 
 @SuppressWarnings({"WeakerAccess", "unused", "SameParameterValue"})
 public final class Utils {
+
+    // <editor-fold desc="Often-used single instances (e.g. Random)">
+
     private static final Scanner sc = new Scanner(System.in);
     public static final Random rng = new Random();
+
+    // </editor-fold>
+
+    // <editor-fold desc="Misc Functions">
 
     public static String getClassDir(Class cls) {
         String sep = FileSystems.getDefault().getSeparator();
@@ -23,6 +30,8 @@ public final class Utils {
     public static int randInt(int lowerBound, int upperBound) {
         return rng.nextInt(upperBound-lowerBound) + lowerBound;
     }
+
+    // </editor-fold>
 
     // <editor-fold desc="Constant Predicates">
 
@@ -283,7 +292,7 @@ public final class Utils {
     }
 
     public static IntPredicate inBounds (int upperBound) {
-        return inBounds(1, upperBound);
+        return inBounds(0, upperBound);
     }
 
     // <editor-fold desc="Simple Comparators">
@@ -330,15 +339,24 @@ public final class Utils {
 
     // </editor-fold>
 
-    public interface RunnableWithException <E extends Throwable> {
+    // <editor-fold desc="Functional Interfaces">
+
+    public interface ERunnable <E extends Throwable> {
         void run() throws E;
     }
 
-    public interface SupplierWithException <T, E extends Throwable> {
+    public interface ESupplier <T, E extends Throwable> {
         T get() throws E;
     }
 
-    public interface FunctionWithException <T, R, E extends Throwable> {
+    public interface EFunction <T, R, E extends Throwable> {
         R apply(T t) throws E;
     }
+
+    public interface EConsumer <T, E extends Throwable> {
+        void accept(T t) throws E;
+    }
+
+    // </editor-fold>
+
 }

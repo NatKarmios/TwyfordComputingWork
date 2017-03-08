@@ -16,7 +16,7 @@ import static com.karmios.nat.computingwork.utils.Utils.*;
 
 public class CollegeRegistration implements Runnable {
     private final transient AtomicBoolean running = new AtomicBoolean(true);
-    private final transient HashMap<String, RunnableWithException<ActionCancelledException>> options = new HashMap<>();
+    private final transient HashMap<String, ERunnable<ActionCancelledException>> options = new HashMap<>();
     private final LinkedList<Student> students = new LinkedList<>();
     private final LinkedList<Teacher> teachers = new LinkedList<>();
     private final LinkedList<Course> courses = new LinkedList<>();

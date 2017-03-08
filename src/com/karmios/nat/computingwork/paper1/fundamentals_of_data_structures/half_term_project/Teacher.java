@@ -1,7 +1,5 @@
 package com.karmios.nat.computingwork.paper1.fundamentals_of_data_structures.half_term_project;
 
-import jdk.nashorn.internal.objects.annotations.Function;
-
 import java.util.NoSuchElementException;
 
 import static com.karmios.nat.computingwork.utils.Utils.*;
@@ -25,11 +23,11 @@ class Teacher extends Person {
     }
 
     Teacher(String name, String address, Gender gender, Department department, float salary, String courseCode,
-            FunctionWithException<String, Course, NoSuchElementException> courseGetter) {
+            EFunction<String, Course, NoSuchElementException> courseGetter) {
         this(name, address, gender, department, salary, courseGetter.apply(courseCode));
     }
 
-    Teacher(SupplierWithException<Course, ActionCancelledException> courseSupplier) throws ActionCancelledException {
+    Teacher(ESupplier<Course, ActionCancelledException> courseSupplier) throws ActionCancelledException {
         this.department = CollegeRegistration.inputDepartment();
         this.salary = Float.valueOf(inputLoop("Enter salary in thousands of pounds: ",
                                               "Must be a real number and at least 0!",
