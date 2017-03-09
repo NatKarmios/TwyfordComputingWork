@@ -4,16 +4,14 @@ import java.nio.file.FileSystems;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.*;
-import java.util.function.Consumer;
-import java.util.function.IntPredicate;
-import java.util.function.Predicate;
+import java.util.function.*;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 @SuppressWarnings({"WeakerAccess", "unused", "SameParameterValue"})
 public final class Utils {
 
-    // <editor-fold desc="Often-used single instances (e.g. Random)">
+    // <editor-fold desc="Often-Used Single Instances)">
 
     private static final Scanner sc = new Scanner(System.in);
     public static final Random rng = new Random();
@@ -36,6 +34,8 @@ public final class Utils {
     // <editor-fold desc="Constant Predicates">
 
     public static final IntPredicate INT_TRUE = x -> true;
+    
+    public static final DoublePredicate DOUBLE_TRUE = x -> true;
 
     public static final Predicate<String> STRING_TRUE = x -> true;
 
@@ -160,6 +160,61 @@ public final class Utils {
 
     // </editor-fold>
 
+    // <editor-fold desc="inputDouble()">
+
+    public static double inputDouble(String prompt, DoublePredicate condition) throws NumberFormatException {
+        double input = Double.valueOf(input(prompt));
+        if (!condition.test(input)) throw new NumberFormatException();
+        return input;
+    }
+
+    public static double inputDouble(DoublePredicate condition) throws  NumberFormatException {
+        return inputDouble("> ", condition);
+    }
+
+    public static double inputDouble(String prompt) throws NumberFormatException {
+        return inputDouble(prompt, DOUBLE_TRUE);
+    }
+
+    public static double inputDouble() throws NumberFormatException {
+        return inputDouble("> ", DOUBLE_TRUE);
+    }
+
+    // <editor-fold desc="loop">
+
+    public static double inputDoubleLoop(String prompt, String failMessage, DoublePredicate condition) {
+        while (true)
+            try {
+                return inputDouble(prompt, condition);
+            } catch (NumberFormatException e) {
+                System.out.println(failMessage);
+            }
+    }
+
+    public static double inputDoubleLoop(String prompt, DoublePredicate condition) {
+        return inputDoubleLoop(prompt, "Invalid input!", condition);
+    }
+
+    public static double inputDoubleLoop(String prompt, String failMessage) {
+        return inputDoubleLoop(prompt, failMessage, DOUBLE_TRUE);
+    }
+
+    public static double inputDoubleLoop(String prompt) {
+        return inputDoubleLoop(prompt, "Invalid input!", DOUBLE_TRUE);
+    }
+
+    public static double inputDoubleLoop(DoublePredicate condition) {
+        return inputDoubleLoop("> ", "Invalid input!", condition);
+    }
+
+    public static double inputDoubleLoop() {
+        return inputDoubleLoop("> ", "Invalid input!", DOUBLE_TRUE);
+    }
+
+    // </editor-fold>
+
+    // </editor-fold>
+    
     // <editor-fold desc="inputBool()">
 
     public static boolean inputBool(String prompt, boolean addYN) throws InputMismatchException {
