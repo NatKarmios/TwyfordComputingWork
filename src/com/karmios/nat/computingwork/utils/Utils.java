@@ -29,6 +29,10 @@ public final class Utils {
         return rng.nextInt(upperBound-lowerBound) + lowerBound;
     }
 
+    public static int randInt(int upperBound) {
+        return randInt(0, upperBound);
+    }
+
     // </editor-fold>
 
     // <editor-fold desc="Constant Predicates">
