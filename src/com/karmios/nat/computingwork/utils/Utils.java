@@ -326,7 +326,7 @@ public final class Utils {
             try {
                 return condition.test(t);
             }
-            catch (Exception e) {
+            catch (Throwable e) {
                 return false;
             }
         };
@@ -338,7 +338,7 @@ public final class Utils {
                 consumer.accept(t);
                 return true;
             }
-            catch (Exception e) {
+            catch (Throwable e) {
                 return false;
             }
         };
