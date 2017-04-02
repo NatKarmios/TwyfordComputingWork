@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 @SuppressWarnings({"WeakerAccess", "unused", "SameParameterValue"})
 public final class Utils {
 
-    // <editor-fold desc="Often-Used Single Instances)">
+    // <editor-fold desc="Often-Used Single Instances">
 
     private static final Scanner sc = new Scanner(System.in);
     public static final Random rng = new Random();
@@ -25,6 +25,8 @@ public final class Utils {
         return System.getProperty("user.dir") + sep + "src" + sep + cls.getPackage().getName().replace(".", sep) + sep;
     }
 
+    // <editor-fold desc="randInt()">
+
     public static int randInt(int lowerBound, int upperBound) {
         return rng.nextInt(upperBound-lowerBound) + lowerBound;
     }
@@ -32,6 +34,26 @@ public final class Utils {
     public static int randInt(int upperBound) {
         return randInt(0, upperBound);
     }
+
+    // </editor-fold>
+
+    // <editor-fold desc="sorted()">
+
+    public static <T, L extends ArrayList<T>> ArrayList<T> sorted(L l, Comparator<T> comparator) {
+        ArrayList<T> l2 = new ArrayList<>(l);
+        l2.sort(comparator);
+        return l2;
+    }
+
+    public static <T extends Comparable<? super T>, L extends ArrayList<T>> ArrayList<T> sorted(L l, boolean reverse) {
+        return sorted(l, reverse ? Comparator.reverseOrder() : Comparator.naturalOrder());
+    }
+
+    public static <T extends Comparable<? super T>, L extends ArrayList<T>> ArrayList<T> sorted(L l) {
+        return sorted(l, false);
+    }
+
+    // </editor-fold>
 
     // </editor-fold>
 
@@ -52,6 +74,8 @@ public final class Utils {
             return false;
         }
     };
+
+    public static final IntPredicate IS_NATURAL = x -> x > 0;
 
     // </editor-fold>
 
@@ -264,7 +288,7 @@ public final class Utils {
     }
 
     public static boolean inputBoolLoop(String prompt, boolean addYN) {
-        return inputBoolLoop(prompt, "Invalid input!");
+        return inputBoolLoop(prompt, "Invalid input!", addYN);
     }
 
     public static boolean inputBoolLoop(String prompt) {
@@ -400,18 +424,22 @@ public final class Utils {
 
     // <editor-fold desc="Functional Interfaces">
 
+    @FunctionalInterface
     public interface ERunnable <E extends Throwable> {
         void run() throws E;
     }
 
+    @FunctionalInterface
     public interface ESupplier <T, E extends Throwable> {
         T get() throws E;
     }
 
+    @FunctionalInterface
     public interface EFunction <T, R, E extends Throwable> {
         R apply(T t) throws E;
     }
 
+    @FunctionalInterface
     public interface EConsumer <T, E extends Throwable> {
         void accept(T t) throws E;
     }
