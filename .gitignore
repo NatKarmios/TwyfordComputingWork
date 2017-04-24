@@ -36,3 +36,4 @@ fabric.properties
 Tests.java
 exportToHTML.zip
 exportToHTML/
+.gradle/
