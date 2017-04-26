@@ -54,7 +54,9 @@ public final class Utils {
     }
 
     // </editor-fold>
-    
+
+    // <editor-fold desc="mutateUntil()">
+
     public int mutateUntil(int x, IntUnaryOperator operator, IntPredicate condition) {
         while (!condition.test(x)) x = operator.applyAsInt(x);
         return x;
@@ -74,6 +76,8 @@ public final class Utils {
         while (!condition.test(x)) x = operator.apply(x);
         return x;
     }
+
+    // </editor-fold>
 
     // </editor-fold>
 
