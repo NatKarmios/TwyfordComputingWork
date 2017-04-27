@@ -57,22 +57,22 @@ public final class Utils {
 
     // <editor-fold desc="mutateUntil()">
 
-    public int mutateUntil(int x, IntUnaryOperator operator, IntPredicate condition) {
+    public static int mutateUntil(int x, IntUnaryOperator operator, IntPredicate condition) {
         while (!condition.test(x)) x = operator.applyAsInt(x);
         return x;
     }
 
-    public long mutateUntil(long x, LongUnaryOperator operator, LongPredicate condition) {
+    public static long mutateUntil(long x, LongUnaryOperator operator, LongPredicate condition) {
         while (!condition.test(x)) x = operator.applyAsLong(x);
         return x;
     }
     
-    public double mutateUntil(double x, DoubleUnaryOperator operator, DoublePredicate condition) {
+    public static double mutateUntil(double x, DoubleUnaryOperator operator, DoublePredicate condition) {
         while (!condition.test(x)) x = operator.applyAsDouble(x);
         return x;
     }
 
-    public <X> X mutateUntil(X x, UnaryOperator<X> operator, Predicate<X> condition) {
+    public static <X> X mutateUntil(X x, UnaryOperator<X> operator, Predicate<X> condition) {
         while (!condition.test(x)) x = operator.apply(x);
         return x;
     }
