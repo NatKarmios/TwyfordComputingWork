@@ -37,5 +37,8 @@ Tests.java
 exportToHTML.zip
 exportToHTML/
 .gradle/
+<<<<<<< HEAD
 build/
 lib/
+=======
+>>>>>>> master

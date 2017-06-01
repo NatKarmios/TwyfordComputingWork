@@ -57,26 +57,42 @@ public final class Utils {
 
     // <editor-fold desc="mutateUntil()">
 
+<<<<<<< HEAD
     public static int mutateUntil(int x, IntUnaryOperator operator, IntPredicate condition, int maxMutations) {
         int count = 0;
+=======
+    public static int mutateUntil(int x, IntUnaryOperator operator, IntPredicate condition) {
+>>>>>>> master
         while (!condition.test(x)) x = operator.applyAsInt(x);
         return x;
     }
 
+<<<<<<< HEAD
     public static long mutateUntil(long x, LongUnaryOperator operator, LongPredicate condition, int maxMutations) {
         int count = 0;
+=======
+    public static long mutateUntil(long x, LongUnaryOperator operator, LongPredicate condition) {
+>>>>>>> master
         while (!condition.test(x)) x = operator.applyAsLong(x);
         return x;
     }
     
+<<<<<<< HEAD
     public static double mutateUntil(double x, DoubleUnaryOperator operator, DoublePredicate condition, int maxMutations) {
         int count = 0;
+=======
+    public static double mutateUntil(double x, DoubleUnaryOperator operator, DoublePredicate condition) {
+>>>>>>> master
         while (!condition.test(x)) x = operator.applyAsDouble(x);
         return x;
     }
 
+<<<<<<< HEAD
     public static <X> X mutateUntil(X x, UnaryOperator<X> operator, Predicate<X> condition, int maxMutations) {
         int count = 0;
+=======
+    public static <X> X mutateUntil(X x, UnaryOperator<X> operator, Predicate<X> condition) {
+>>>>>>> master
         while (!condition.test(x)) x = operator.apply(x);
         return x;
     }
