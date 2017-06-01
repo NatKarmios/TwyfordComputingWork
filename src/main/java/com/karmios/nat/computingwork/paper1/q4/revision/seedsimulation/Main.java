@@ -7,10 +7,13 @@ package com.karmios.nat.computingwork.paper1.q4.revision.seedsimulation;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Random;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.UnaryOperator;
+import java.util.stream.Stream;
 
 import static java.util.stream.IntStream.range;
+import static java.util.Arrays.stream;
 
 public class Main {
     private static char SOIL = '.';
@@ -20,18 +23,47 @@ public class Main {
     private static int FIELD_LENGTH = 20;
     private static int FIELD_WIDTH = 35;
 
+
+    // <editor-fold desc="Nat's helper functions" >
+
     private static Character[][] field = new Character[FIELD_LENGTH][FIELD_WIDTH];
 
-    private static void fillWithSoil() {
-        range(0, FIELD_LENGTH).forEach((row) -> range(0, FIELD_WIDTH).forEach((col) -> field[row][col] = SOIL));
+    enum Seasons {SPRING, SUMMER, AUTUMN, WINTER}
+    private static HashMap<Seasons, Runnable> seasonSimulators = new HashMap<>();
+    static {
+        seasonSimulators.put(Seasons.SPRING, Main::simulateSpring);
+        seasonSimulators.put(Seasons.SUMMER, Main::simulateSummer);
+        seasonSimulators.put(Seasons.AUTUMN, Main::simulateAutumn);
+        seasonSimulators.put(Seasons.WINTER, Main::simulateWinter);
     }
 
+    private static void fillWithSoil() {
+        mapFieldCells(cell -> SOIL);
+    }
+
+    private static void simulate(Seasons season) {
+        seasonSimulators.get(season).run();
+    }
+
+    private static void mapFieldRows(UnaryOperator<Character[]> operator) {
+        field = Arrays.stream(field).map(operator).toArray(Character[][]::new);
+    }
+
+    private static void mapFieldCells(UnaryOperator<Character> operator) {
+        mapFieldRows(row -> Arrays.stream(row).map(operator).toArray(Character[]::new));
+    }
+
+    private static boolean fieldIsValid(Character[][] newField) {
+        return newField.length==FIELD_LENGTH && stream(newField).allMatch(arr -> arr.length==FIELD_WIDTH);
+    }
+
+    // </editor-fold>
+
+
     private static int getHowLongToRun() {
-        Console.println("Welcome to the Plant Growing simulation");
-        Console.println();
-        Console.println("You can step through the simulation a year at a time");
-        Console.println("or run the simulation for 0 to 5 years");
-        Console.println("How many years do you want the simulation to run?");
+        Stream.of("Welcome to the Plant Growing simulation", "", "You can step through the simulation a year at a time",
+                  "or run the simulation for 0 to 5 years",
+                  "How many years do you want the simulation to run?").forEach(System.out::println);
         return Console.readInteger("Enter a number between 0 and 5, or -1 for stepping mode: ");
     }
 
@@ -44,9 +76,12 @@ public class Main {
         try {
             fillWithSoil();
             Console.print("Enter file name: ");
-            field = Files.lines(Paths.get(Console.readLine())).map(str -> str.chars().mapToObj(ch -> (char) ch)
-                    .toArray(Character[]::new)).toArray(Character[][]::new);
+            Character[][] newField = Files.lines(Paths.get(Console.readLine())).map(str -> str.chars()
+                    .mapToObj(ch -> (char) ch).toArray(Character[]::new)).toArray(Character[][]::new);
+            if (fieldIsValid(newField)) field=newField;
+            else throw new Exception();
         } catch (Exception e) {
+            Console.println("Invalid file!");
             createNewField();
         }
     }
@@ -57,14 +92,8 @@ public class Main {
         else createNewField();
     }
 
-    private static void display(String season, int Year) {
-        Console.println("\nSeason: " + season + "  Year number: " + Year);
-        for (int Row = 0; Row < FIELD_LENGTH; Row++) {
-            for (int Column = 0; Column < FIELD_WIDTH; Column++) {
-                Console.print(field[Row][Column]);
-            }
-            Console.println("|" + String.format("%3d", Row));
-        }
+    private static void display(Seasons season, int Year) {
+        Console.println("\nSeason: " + season.toString().toLowerCase() + "  Year number: " + Year);
         range(0, FIELD_LENGTH).forEach(row -> Console.println(Arrays.stream(field[row])
                 .collect(StringBuilder::new, StringBuilder::append, StringBuilder::append).toString()
                 + "|" + String.format("%3d", row)));
@@ -76,49 +105,22 @@ public class Main {
     }
 
     private static void simulateSpring() {
-        int PlantCount;
-        for (int Row = 0; Row < FIELD_LENGTH; Row++) {
-            for (int Column = 0; Column < FIELD_WIDTH; Column++) {
-                if (field[Row][Column] == SEED) {
-                    field[Row][Column] = PLANT;
-                }
-            }
-        }
+        mapFieldCells(cell -> cell.equals(SEED) ? PLANT : cell);
         countPlants();
         if (new Random().nextInt(2) == 1) {
-            PlantCount = 0;
-            for (int Row = 0; Row < FIELD_LENGTH; Row++) {
-                for (int Column = 0; Column < FIELD_WIDTH; Column++) {
-                    if (field[Row][Column] == PLANT) {
-                        PlantCount++;
-                        if (PlantCount % 3 == 0) {
-                            field[Row][Column] = SOIL;
-                        }
-                    }
-                }
-            }
+            AtomicInteger plantCount = new AtomicInteger();
+            mapFieldCells(cell -> cell==PLANT && plantCount.getAndIncrement()%3==0 ? SOIL : cell);
             Console.println("There has been a frost");
             countPlants();
         }
     }
 
     private static void simulateSummer() {
+
         Random RandomInt = new Random();
-        int RainFall = RandomInt.nextInt(3);
-        int PlantCount;
-        if (RainFall == 0) {
-            PlantCount = 0;
-            for (int Row = 0; Row < FIELD_LENGTH; Row++) {
-                for (int Column = 0; Column < FIELD_WIDTH; Column++) {
-                    if (field[Row][Column] == PLANT) {
-                        PlantCount++;
-                        if (PlantCount % 2 == 0) {
-                            field[Row][Column] = SOIL;
-                        }
-                    }
-                }
-            }
-            range(0, FIELD_LENGTH).forEach(row -> range(0, FIELD_WIDTH).forEach(col -> {}));
+        if (RandomInt.nextInt(3) == 0) {
+            AtomicInteger plantCount = new AtomicInteger();
+            mapFieldCells(ch -> plantCount.incrementAndGet()%2==0 ? SOIL : ch);
             Console.println("There has been a drought");
             countPlants();
         }
@@ -130,66 +132,34 @@ public class Main {
     }
 
     private static void simulateAutumn() {
-        for (int Row = 0; Row < FIELD_LENGTH; Row++) {
-            for (int Column = 0; Column < FIELD_WIDTH; Column++) {
-                if (field[Row][Column] == PLANT) {
-                    seedLands(Row - 1, Column - 1);
-                    seedLands(Row - 1, Column);
-                    seedLands(Row - 1, Column + 1);
-                    seedLands(Row, Column - 1);
-                    seedLands(Row, Column + 1);
-                    seedLands(Row + 1, Column - 1);
-                    seedLands(Row + 1, Column);
-                    seedLands(Row + 1, Column + 1);
-                }
-            }
-        }
+        range(0, FIELD_LENGTH).forEach(row -> range(0, FIELD_WIDTH).forEach(col ->
+                range(-1, 2).forEach(rowOffset -> range(-1, 2).forEach(colOffset -> {
+                    if (rowOffset!=0 || colOffset!=0) seedLands(row+rowOffset, col+colOffset);
+                }))
+        ));
     }
 
     private static void simulateWinter() {
-        for (int Row = 0; Row < FIELD_LENGTH; Row++) {
-            for (int Column = 0; Column < FIELD_WIDTH; Column++) {
-                if (field[Row][Column] == PLANT) {
-                    field[Row][Column] = SOIL;
-                }
-            }
-        }
+        mapFieldCells(ch -> ch.equals(PLANT) ? SOIL : ch);
     }
 
-    private static void simulateOneYear(int Year) {
-        simulateSpring();
-        display("spring", Year);
-        simulateSummer();
-        display("summer", Year);
-        simulateAutumn();
-        display("autumn", Year);
-        simulateWinter();
-        display("winter", Year);
+    private static void simulateOneYear(int year) {
+        Arrays.stream(Seasons.values()).forEach(season -> {display(season, year); simulate(season);});
     }
 
     private static void simulation() {
-        int yearsToRun;
-        boolean continuing;
-        int year;
-        yearsToRun = getHowLongToRun();
-        if (yearsToRun != 0) {
-            initialiseField();
-            if (yearsToRun >= 1) {
-                for (year = 1; year <= yearsToRun; year++) {
-                    simulateOneYear(year);
-                }
-            } else {
-                continuing = true;
-                year = 0;
-                while (continuing) {
-                    year++;
-                    simulateOneYear(year);
-                    Console.print("Press Enter to run simulation for another year, Input X to stop: ");
-                    continuing = !Console.readLine().toUpperCase().equals("X");
-                }
-            }
-            Console.println("End of simulation");
+        int yearsToRun = getHowLongToRun();
+        if (yearsToRun == 0) return;
+        initialiseField();
+        if (yearsToRun > 0)  range(1, yearsToRun+1).forEach(Main::simulateOneYear);
+        else {
+            int year = 0;
+            do {
+                simulateOneYear(year++);
+                Console.print("Press Enter to run simulation for another year, Input X to stop: ");
+            } while (!Console.readLine().toUpperCase().equals("X"));
         }
+        Console.println("End of simulation");
         Console.readLine();
     }
 
